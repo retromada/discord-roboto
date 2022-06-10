@@ -1,4 +1,4 @@
-import Context from '@structures/command/Context'
+import { Context } from '@structures/command'
 import Listener from '@structures/Listener'
 
 export default class InteractionCreate extends Listener {

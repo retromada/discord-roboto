@@ -1,4 +1,4 @@
-import Command from '@structures/command/Command'
+import { Command } from '@structures/command'
 
 export default class Ping extends Command {
   constructor (client) {
