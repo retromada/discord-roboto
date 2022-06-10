@@ -1,0 +1,52 @@
+{
+  "name": "@retromada/discord-roboto",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "yarn clean && yarn build:src",
+    "build:src": "tsc && tsc-alias -p tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "cross-env DOTENV_CONFIG_PATH=.env.development ts-node-dev -r tsconfig-paths/register -r dotenv/config --respawn --transpile-only --ignore-watch node_modules src/index.ts",
+    "dev:prod": "node -r dotenv/config dist/index.js",
+    "prettier": "prettier --write src"
+  },
+  "engines": {
+    "node": ">=16.14.0 <17",
+    "yarn": ">=1.22.15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/retromada/discord-roboto.git"
+  },
+  "author": "retromada",
+  "license": "BSD-4-Clause",
+  "dependencies": {
+    "@retromada/prototype": "^0.0.3",
+    "discord.js": "^13.8.0",
+    "pino": "^8.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.41",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.1",
+    "eslint": "^8.17.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import-helpers": "^1.2.1",
+    "eslint-plugin-n": "^15.2.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "prettier": "^2.6.2",
+    "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.6.9",
+    "tsconfig-paths": "^4.0.0",
+    "typescript": "^4.7.3"
+  },
+  "optionalDependencies": {
+    "pino-pretty": "^8.0.0"
+  }
+}
