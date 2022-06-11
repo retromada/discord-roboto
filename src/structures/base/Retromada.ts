@@ -5,8 +5,8 @@ import loaders from '@loaders'
 import Logger from './Logger'
 
 export default class Retromada extends Client {
-  logger
-  commands: Map<string, any>
+  public logger
+  public commands: Map<string, any>
 
   constructor () {
     super({ intents: [Intents.FLAGS.GUILDS] })

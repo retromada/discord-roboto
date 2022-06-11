@@ -5,8 +5,8 @@ import File from '@utils/File'
 import type Retromada from './base/Retromada'
 
 export default abstract class Loader {
-  client: Retromada
-  abstract loadFile(file, filename: string): void
+  public client: Retromada
+  public abstract loadFile(file, filename: string): void
 
   constructor (client: Retromada) {
     this.client = client

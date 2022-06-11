@@ -6,10 +6,10 @@ import { optionHandler } from '@utils'
 import type Retromada from './base/Retromada'
 
 export default class Listener {
-  client: Retromada
-  logger: Logger
-  unifiedEvents: boolean
-  events: string[]
+  public client: Retromada
+  public logger: Logger
+  public unifiedEvents: boolean
+  public events: string[]
 
   constructor (client: Retromada, options: IListenerOptions | any = {}) {
     this.client = client
