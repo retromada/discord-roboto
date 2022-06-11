@@ -1,14 +1,17 @@
 {
   "name": "@retromada/discord-roboto",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "scripts": {
     "clean": "rm -rf dist",
+    "env:dev": "cross-env DOTENV_CONFIG_PATH=.env.development",
     "build": "yarn clean && yarn build:src",
     "build:src": "tsc && tsc-alias -p tsconfig.json",
     "start": "node dist/index.js",
-    "dev": "cross-env DOTENV_CONFIG_PATH=.env.development ts-node-dev -r tsconfig-paths/register -r dotenv/config --respawn --transpile-only --ignore-watch node_modules src/index.ts",
+    "dev": "yarn env:dev tsnd -r tsconfig-paths/register -r dotenv/config --respawn --transpile-only --ignore-watch node_modules src/index.ts",
     "dev:prod": "node -r dotenv/config dist/index.js",
+    "deploy-commands": "yarn env:dev tsnd -r tsconfig-paths/register -r dotenv/config --transpile-only src/deployCommands.ts",
+    "deploy-commands:prod": "tsnd -r tsconfig-paths/register -r dotenv/config --transpile-only src/deployCommands.ts",
     "prettier": "prettier --write src"
   },
   "engines": {
@@ -22,7 +25,11 @@
   "author": "retromada",
   "license": "BSD-4-Clause",
   "dependencies": {
+    "@discordjs/builders": "^0.15.0",
+    "@discordjs/rest": "^0.5.0",
     "@retromada/prototype": "^0.0.3",
+    "commander": "^9.3.0",
+    "discord-api-types": "^0.33.5",
     "discord.js": "^13.8.0",
     "pino": "^8.0.0"
   },

@@ -1,9 +1,11 @@
-import type { Interaction } from 'discord.js'
+import type { Interaction, TextBasedChannel } from 'discord.js'
 
 export default class Context {
-  interaction: Interaction
+  public interaction: Interaction
+  public channel: TextBasedChannel
 
   constructor (options) {
     this.interaction = options.interaction
+    this.channel = options.interaction.channel
   }
 }

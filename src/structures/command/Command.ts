@@ -5,11 +5,11 @@ import type Retromada from '@structures/base/Retromada'
 import { optionHandler } from '@utils'
 
 export default abstract class Command {
-  client: Retromada
-  logger: Logger
-  name: string
-  category: string
-  abstract execute(context): void
+  public client: Retromada
+  public logger: Logger
+  public name: string
+  public category: string
+  public abstract execute(context): void
 
   constructor (options: ICommandOptions | any = {}, client) {
     this.client = client

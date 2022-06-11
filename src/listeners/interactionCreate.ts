@@ -2,7 +2,7 @@ import { Context } from '@structures/command'
 import Listener from '@structures/Listener'
 
 export default class InteractionCreate extends Listener {
-  commands: Map<string, any>
+  public commands: Map<string, any>
 
   constructor (client) {
     super(client)
@@ -15,14 +15,13 @@ export default class InteractionCreate extends Listener {
     if (!interaction.guildId || !interaction.channelId) return false
     if (!interaction.client.guilds.cache.get(interaction.guildId)) return false
 
-    const command = interaction.commandName.toLowerCase()
+    const commandName = interaction.commandName.toLowerCase()
 
-    if (this.commands.has(command)) {
+    if (this.commands.has(commandName)) {
+      const command = this.commands.get(commandName)
       const context = new Context({ interaction })
 
-      await interaction.reply(
-        this.commands.get(command).executeCommand(context)
-      )
+      command.executeCommand(context)
     }
   }
 }
