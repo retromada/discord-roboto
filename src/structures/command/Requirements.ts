@@ -10,7 +10,7 @@ export default class Requirements {
 
       errors: {
         developersOnly: 'Only the bot developers can do that.',
-        managersOnyl: 'Only the bot managers can do that.'
+        managersOnly: 'Only the bot managers can do that.'
       }
     }
   }
