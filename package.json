@@ -1,6 +1,6 @@
 {
   "name": "@retromada/discord-roboto",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "private": true,
   "scripts": {
     "clean": "rm -rf dist",
@@ -31,9 +31,12 @@
     "commander": "^9.3.0",
     "discord-api-types": "^0.33.5",
     "discord.js": "^13.8.0",
-    "pino": "^8.0.0"
+    "express": "^4.18.1",
+    "pino": "^8.0.0",
+    "pino-http": "^7.1.0"
   },
   "devDependencies": {
+    "@types/express": "^4.17.13",
     "@types/node": "^17.0.41",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
