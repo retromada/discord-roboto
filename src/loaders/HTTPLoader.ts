@@ -23,13 +23,6 @@ export default abstract class HTTPLoader extends Loader {
   }
 
   initializeHTTPServer (port = process.env.PORT) {
-    if (!port) {
-      return this.logger.warn(
-        { labels: ['HTTPLoader', 'initializeHTTPServer'] },
-        'Server not started - Environment variable "PORT" is not set'
-      )
-    }
-
     this.http = express()
 
     this.http.use(express.json())
