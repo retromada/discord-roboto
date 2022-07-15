@@ -8,7 +8,10 @@ export default class Options extends null {
       notifyChannels: [
         {
           channelId: 'null',
-          actions: this.notifyChannelsActions([ChannelAction.DELETE_MESSAGES])
+          actions: this.notifyChannelsActions([
+            ChannelAction.DELETE_MESSAGES,
+            ChannelAction.UPDATE_MESSAGES
+          ])
         }
       ]
     }
