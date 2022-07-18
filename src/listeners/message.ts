@@ -1,6 +1,7 @@
 import { MessageAttachment, MessageEmbed } from 'discord.js'
 
 import Listener from '@structures/Listener'
+import { ChannelAction } from '@utils/Enums'
 
 export default class Message extends Listener {
   constructor (client) {
@@ -10,86 +11,89 @@ export default class Message extends Listener {
     })
   }
 
-  public async onMessageDelete (message) {
-    this.options.notifyChannels.forEach(({ channelId, actions }) => {
-      if (message.channel.id !== channelId && actions.deleteMessages) {
-        message.guild.channels
-          .fetch(channelId)
-          .then((channel) =>
-            channel.send({
-              embeds: [
-                new MessageEmbed()
-                  .setAuthor({
-                    name: message.author.tag,
-                    iconURL: message.author.displayAvatarURL({ size: 16 })
-                  })
-                  .addFields(
-                    { name: 'Channel', value: message.channel.toString() },
-                    { name: 'Content', value: message.content }
-                  )
-                  .setFooter({ text: message.createdAt.toString() })
-              ]
-            })
-          )
-          .catch(console.error)
-      }
-    })
+  public onMessageDelete ({ author, channel, content, createdAt, guild }) {
+    this.notifyChannels(
+      {
+        event: 'messageDelete',
+        action: ChannelAction.DELETE_MESSAGES,
+        channel,
+        guild
+      },
+      (channel) =>
+        channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor({
+                name: author.tag,
+                iconURL: author.displayAvatarURL({ size: 16 })
+              })
+              .addFields(
+                { name: 'Channel', value: channel.toString() },
+                { name: 'Content', value: content }
+              )
+              .setFooter({ text: createdAt.toString() })
+          ]
+        })
+    )
   }
 
-  public async onMessageDeleteBulk (messages) {
+  public onMessageDeleteBulk (messages) {
     const { channel, guild } = messages.first()
 
-    this.options.notifyChannels.forEach(({ channelId, actions }) => {
-      if (channel.id !== channelId && actions.bulkDeleteMessages) {
-        guild.channels
-          .fetch(channelId)
-          .then((channel) =>
-            channel.send({
-              files: [
-                new MessageAttachment(
-                  Buffer.from(
-                    messages
-                      .map(
-                        ({ author, content }) =>
-                          `(${author.id}) ${author.tag} :: ${content}`
-                      )
-                      .reverse()
-                      .join('\n')
-                  ),
-                  `deleted ${channel.name} ${new Date()}.log`
-                )
-              ]
-            })
-          )
-          .catch(console.error)
-      }
-    })
+    this.notifyChannels(
+      {
+        event: 'messageDeleteBulk',
+        action: ChannelAction.BULK_DELETE_MESSAGES,
+        channel,
+        guild
+      },
+      (channel) =>
+        channel.send({
+          files: [
+            new MessageAttachment(
+              Buffer.from(
+                messages
+                  .map(
+                    ({ author, content }) =>
+                      `(${author.id}) ${author.tag} :: ${content}`
+                  )
+                  .reverse()
+                  .join('\n')
+              ),
+              `deleted ${channel.name} ${new Date()}.log`
+            )
+          ]
+        })
+    )
   }
 
-  public async onMessageUpdate (message, { content }) {
-    this.options.notifyChannels.forEach(({ channelId, actions }) => {
-      if (message.channel.id !== channelId && actions.updateMessages) {
-        message.guild.channels
-          .fetch(channelId)
-          .then((channel) =>
-            channel.send({
-              embeds: [
-                new MessageEmbed()
-                  .setAuthor({
-                    name: message.author.tag,
-                    iconURL: message.author.displayAvatarURL({ size: 16 })
-                  })
-                  .addFields(
-                    { name: 'Channel', value: message.channel.toString() },
-                    { name: 'Before', value: message.content },
-                    { name: 'After', value: content }
-                  )
-                  .setFooter({ text: message.createdAt.toString() })
-              ]
-            })
-          )
-          .catch(console.error)
-      }
-    })
+  public onMessageUpdate (
+    { author, channel, content: beforeContent, createdAt, guild },
+    { content: afterContent }
+  ) {
+    this.notifyChannels(
+      {
+        event: 'messageUpdate',
+        action: ChannelAction.UPDATE_MESSAGES,
+        channel,
+        guild
+      },
+      (channel) =>
+        channel.send({
+          embeds: [
+            new MessageEmbed()
+              .setAuthor({
+                name: author.tag,
+                iconURL: author.displayAvatarURL({ size: 16 })
+              })
+              .addFields(
+                { name: 'Channel', value: channel.toString() },
+                { name: 'Before', value: beforeContent },
+                { name: 'After', value: afterContent }
+              )
+              .setFooter({ text: createdAt.toString() })
+          ]
+        })
+    )
   }
 }
