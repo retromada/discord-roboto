@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js'
+import { MessageAttachment, MessageEmbed } from 'discord.js'
 
 import Listener from '@structures/Listener'
 
@@ -6,7 +6,7 @@ export default class Message extends Listener {
   constructor (client) {
     super(client, {
       unifiedEvents: true,
-      events: ['messageDelete', 'messageUpdate']
+      events: ['messageDelete', 'messageDeleteBulk', 'messageUpdate']
     })
   }
 
@@ -28,6 +28,36 @@ export default class Message extends Listener {
                     { name: 'Content', value: message.content }
                   )
                   .setFooter({ text: message.createdAt.toString() })
+              ]
+            })
+          )
+          .catch(console.error)
+      }
+    })
+  }
+
+  public async onMessageDeleteBulk (messages) {
+    const { channel, guild } = messages.first()
+
+    this.options.notifyChannels.forEach(({ channelId, actions }) => {
+      if (channel.id !== channelId && actions.bulkDeleteMessages) {
+        guild.channels
+          .fetch(channelId)
+          .then((channel) =>
+            channel.send({
+              files: [
+                new MessageAttachment(
+                  Buffer.from(
+                    messages
+                      .map(
+                        ({ author, content }) =>
+                          `(${author.id}) ${author.tag} :: ${content}`
+                      )
+                      .reverse()
+                      .join('\n')
+                  ),
+                  `deleted ${channel.name} ${new Date()}.log`
+                )
               ]
             })
           )
