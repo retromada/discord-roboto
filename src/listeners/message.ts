@@ -24,7 +24,7 @@ export default class Message extends Listener {
                     iconURL: message.author.displayAvatarURL({ size: 16 })
                   })
                   .addFields(
-                    { name: 'Channel', value: `<#${message.channel.id}>` },
+                    { name: 'Channel', value: message.channel.toString() },
                     { name: 'Content', value: message.content }
                   )
                   .setFooter({ text: message.createdAt.toString() })
@@ -80,7 +80,7 @@ export default class Message extends Listener {
                     iconURL: message.author.displayAvatarURL({ size: 16 })
                   })
                   .addFields(
-                    { name: 'Channel', value: `<#${message.channel.id}>` },
+                    { name: 'Channel', value: message.channel.toString() },
                     { name: 'Before', value: message.content },
                     { name: 'After', value: content }
                   )
