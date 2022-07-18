@@ -20,19 +20,8 @@ export default class Options extends null {
 
   private static notifyChannelsActions (actions) {
     return actions.reduce(
-      (accumulator, action) => ({
-        ...accumulator,
-        [this.snakeToCamel(ChannelAction[action])]: true
-      }),
+      (accumulator, action) => ({ ...accumulator, [action]: true }),
       {}
     )
-  }
-
-  private static snakeToCamel (value: string) {
-    return value
-      .toLowerCase()
-      .replace(/([-_][a-z])/g, (group) =>
-        group.toUpperCase().replace('-', '').replace('_', '')
-      )
   }
 }

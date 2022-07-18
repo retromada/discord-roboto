@@ -1,5 +1,5 @@
 export enum ChannelAction {
-  DELETE_MESSAGES,
-  UPDATE_MESSAGES,
-  BULK_DELETE_MESSAGES
+  DELETE_MESSAGES = 'deleteMessages',
+  UPDATE_MESSAGES = 'updateMessages',
+  BULK_DELETE_MESSAGES = 'bulkDeleteMessages'
 }
