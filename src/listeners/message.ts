@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { MessageAttachment, MessageEmbed } from 'discord.js'
 
 import Listener from '@structures/Listener'
@@ -74,13 +75,17 @@ export default class Message extends Listener {
                 Buffer.from(
                   messages
                     .map(
-                      ({ author, content }) =>
-                        `(${author.id}) ${author.tag} :: ${content}`
+                      ({ author, content, createdAt }) =>
+                        `[${dayjs(createdAt).format('YYYY/MM/DD HH:mm:ss')}] (${
+                          author.id
+                        }) ${author.tag} :: ${content}`
                     )
                     .reverse()
                     .join('\n')
                 ),
-                `deleted ${channel.name} ${new Date()}.log`
+                `deleted ${channel.name} ${dayjs().format(
+                  'YYYY-MM-DD HH-mm-ss'
+                )}.log`
               )
             ]
           })
