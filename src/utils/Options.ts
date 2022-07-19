@@ -1,3 +1,5 @@
+import keyBy from 'lodash/keyBy'
+
 import { IDefaultOptions } from '@interfaces'
 
 import { ChannelAction } from './Enums'
@@ -8,7 +10,7 @@ export default class Options extends null {
       notifyChannels: [
         {
           channelId: 'null',
-          actions: this.notifyChannelsActions([
+          actions: keyBy([
             ChannelAction.DELETE_MESSAGES,
             ChannelAction.UPDATE_MESSAGES,
             ChannelAction.BULK_DELETE_MESSAGES
@@ -16,12 +18,5 @@ export default class Options extends null {
         }
       ]
     }
-  }
-
-  private static notifyChannelsActions (actions) {
-    return actions.reduce(
-      (accumulator, action) => ({ ...accumulator, [action]: true }),
-      {}
-    )
   }
 }
