@@ -11,7 +11,15 @@ export default class Message extends Listener {
     })
   }
 
-  public onMessageDelete ({ author, channel, content, createdAt, guild }) {
+  public onMessageDelete ({
+    attachments,
+    author,
+    channel,
+    content,
+    createdAt,
+    embeds,
+    guild
+  }) {
     this.notifyChannels(
       {
         event: this.eventsByKey.messageDelete,
@@ -19,8 +27,8 @@ export default class Message extends Listener {
         channel,
         guild
       },
-      (channel) =>
-        channel
+      (notifyChannel) =>
+        notifyChannel
           .send({
             embeds: [
               new MessageEmbed()
@@ -30,7 +38,14 @@ export default class Message extends Listener {
                 })
                 .addFields(
                   { name: 'Channel', value: channel.toString() },
-                  { name: 'Content', value: content }
+                  {
+                    name: 'Content',
+                    value: this.parseMessageContent({
+                      attachments,
+                      content,
+                      embeds
+                    })
+                  }
                 )
                 .setFooter({ text: createdAt.toString() })
             ]
@@ -51,8 +66,8 @@ export default class Message extends Listener {
         channel,
         guild
       },
-      (channel) =>
-        channel
+      (notifyChannel) =>
+        notifyChannel
           .send({
             files: [
               new MessageAttachment(
@@ -76,8 +91,20 @@ export default class Message extends Listener {
   }
 
   public onMessageUpdate (
-    { author, channel, content: beforeContent, createdAt, guild },
-    { content: afterContent }
+    {
+      attachments: beforeAttachments,
+      author,
+      channel,
+      content: beforeContent,
+      createdAt,
+      embeds: beforeEmbeds,
+      guild
+    },
+    {
+      attachments: afterAttachments,
+      content: afterContent,
+      embeds: afterEmbeds
+    }
   ) {
     this.notifyChannels(
       {
@@ -86,8 +113,8 @@ export default class Message extends Listener {
         channel,
         guild
       },
-      (channel) =>
-        channel
+      (notifyChannel) =>
+        notifyChannel
           .send({
             embeds: [
               new MessageEmbed()
@@ -97,8 +124,22 @@ export default class Message extends Listener {
                 })
                 .addFields(
                   { name: 'Channel', value: channel.toString() },
-                  { name: 'Before', value: beforeContent },
-                  { name: 'After', value: afterContent }
+                  {
+                    name: 'Before',
+                    value: this.parseMessageContent({
+                      attachments: beforeAttachments,
+                      content: beforeContent,
+                      embeds: beforeEmbeds
+                    })
+                  },
+                  {
+                    name: 'After',
+                    value: this.parseMessageContent({
+                      attachments: afterAttachments,
+                      content: afterContent,
+                      embeds: afterEmbeds
+                    })
+                  }
                 )
                 .setFooter({ text: createdAt.toString() })
             ]
@@ -107,5 +148,43 @@ export default class Message extends Listener {
             this.logger.info({ labels: [this.eventsByKey.messageUpdate] })
           )
     )
+  }
+
+  private parseMessageContent ({ attachments, content, embeds }) {
+    if (attachments.size) {
+      return [
+        content,
+        ...attachments.mapValues(({ url }) => url).values()
+      ].join('\n')
+    } else if (embeds.length) {
+      embeds.forEach((embed) =>
+        Object.keys(embed).map(
+          (key) =>
+            (embed[key] === undefined ||
+              embed[key] === null ||
+              !embed[key].length) &&
+            delete embed[key]
+        )
+      )
+
+      return embeds
+        .map((embed) =>
+          Object.entries(embed)
+            .map(
+              ([key, value]) =>
+                `**${key.capitalize()}**: ${
+                  Array.isArray(value)
+                    ? `\n${value
+                        .map(({ name, value }) => `${name}: ${value}`)
+                        .join('\n')}`
+                    : value
+                }`
+            )
+            .join('\n')
+        )
+        .join('\n\n')
+    } else {
+      return content
+    }
   }
 }
