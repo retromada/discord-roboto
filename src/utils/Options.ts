@@ -4,12 +4,14 @@ import { IDefaultOptions } from '@interfaces'
 
 import { ChannelAction } from './Enums'
 
+const NotifyChannels = JSON.parse(process.env.NOTIFY_CHANNELS)
+
 export default class Options extends null {
   public static defaultOptions (): IDefaultOptions {
     return {
       notifyChannels: [
         {
-          channelId: 'null',
+          channelId: NotifyChannels.MESSAGES,
           actions: keyBy([
             ChannelAction.DELETE_MESSAGES,
             ChannelAction.UPDATE_MESSAGES,
