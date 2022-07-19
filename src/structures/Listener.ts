@@ -1,4 +1,5 @@
 import type { TextChannel } from 'discord.js'
+import keyBy from 'lodash/keyBy'
 import type { Logger } from 'pino'
 
 import {
@@ -16,6 +17,7 @@ export default class Listener {
   public options: IDefaultOptions
   public unifiedEvents: boolean
   public events: string[]
+  public eventsByKey: { [key: string]: string }
 
   constructor (client: Retromada, options: IListenerOptions | any = {}) {
     this.client = client
@@ -26,6 +28,8 @@ export default class Listener {
 
     this.unifiedEvents = options.default('unifiedEvents', false)
     this.events = options.optional('events')
+
+    this.eventsByKey = keyBy(this.events)
   }
 
   public notifyChannels (
