@@ -42,7 +42,7 @@ export default class Listener {
           .fetch(channelId)
           .then(callback)
           .catch((error) =>
-            this.logger.error({ labels: [event, action] }, error.message)
+            this.logger.error({ labels: [event] }, error.message)
           )
       }
     })
