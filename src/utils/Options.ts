@@ -11,6 +11,13 @@ export default class Options extends null {
     return {
       notifyChannels: [
         {
+          channelId: NotifyChannels.MEMBERS,
+          actions: keyBy([
+            ChannelAction.MEMBER_JOIN,
+            ChannelAction.MEMBER_LEAVE
+          ])
+        },
+        {
           channelId: NotifyChannels.MESSAGES,
           actions: keyBy([
             ChannelAction.DELETE_MESSAGES,

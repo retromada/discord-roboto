@@ -12,7 +12,13 @@ export default class Retromada extends Client {
   public defaultOptions: IDefaultOptions
 
   constructor () {
-    super({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
+    super({
+      intents: [
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_MEMBERS,
+        Intents.FLAGS.GUILD_MESSAGES
+      ]
+    })
 
     this.logger = new Logger({ prettyPrint: true })
     this.commands = new Map()

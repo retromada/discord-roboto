@@ -37,7 +37,7 @@ export default class Listener {
     callback: (channel: TextChannel) => void
   ) {
     this.options.notifyChannels.forEach(({ channelId, actions }) => {
-      if (channel.id !== channelId && actions[action]) {
+      if (channel?.id !== channelId && actions[action]) {
         guild.channels
           .fetch(channelId)
           .then(callback)

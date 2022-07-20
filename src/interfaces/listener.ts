@@ -10,6 +10,6 @@ export interface IListenerOptions {
 export interface INotifyChannelsOptions {
   event: string
   action: ChannelAction
-  channel: TextChannel
+  channel?: TextChannel
   guild: Guild
 }
