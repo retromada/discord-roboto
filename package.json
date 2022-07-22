@@ -26,11 +26,9 @@
   "license": "BSD-4-Clause",
   "dependencies": {
     "@discordjs/builders": "^1.0.0",
-    "@discordjs/rest": "^0.5.0",
     "@retromada/prototype": "^0.0.3",
     "commander": "^9.3.0",
     "dayjs": "^1.11.3",
-    "discord-api-types": "^0.33.5",
     "discord.js": "13.9.0",
     "express": "^4.18.1",
     "lodash": "^4.17.21",
@@ -59,6 +57,8 @@
     "typescript": "^4.7.3"
   },
   "optionalDependencies": {
+    "@discordjs/rest": "^1.0.0",
+    "discord-api-types": "^0.36.3",
     "pino-pretty": "^8.0.0"
   }
 }
