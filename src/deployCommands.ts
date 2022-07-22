@@ -1,11 +1,11 @@
 import { REST } from '@discordjs/rest'
 import { program } from 'commander'
-import { Routes } from 'discord-api-types/v9'
+import { Routes } from 'discord-api-types/v10'
 
 import File from '@utils/File'
 
 const { DISCORD_TOKEN, CLIENT_ID, GUILD_ID } = process.env
-const rest = new REST({ version: '9' }).setToken(DISCORD_TOKEN)
+const rest = new REST({ version: '10' }).setToken(DISCORD_TOKEN)
 
 program.option('-og, --only-guild')
 program.parse()
