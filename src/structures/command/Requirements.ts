@@ -1,11 +1,16 @@
 import type { GuildMember } from 'discord.js'
 
-import { ICommandRequirementsOptions } from '@interfaces'
+import {
+  ICommandRequirementsOptions,
+  ICommandRequirementsParsedOptions
+} from '@interfaces'
 
 const { DEVELOPER_ROLE_ID, MANAGER_ROLE_ID } = process.env
 
 export default class Requirements {
-  public static parseOptions (options: ICommandRequirementsOptions) {
+  public static parseOptions (
+    options: ICommandRequirementsOptions
+  ): ICommandRequirementsParsedOptions {
     return {
       developersOnly: !!options.developersOnly,
       managersOnly: !!options.managersOnly,
@@ -19,9 +24,9 @@ export default class Requirements {
 
   public static async handle (
     { member }: { member: GuildMember },
-    options: ICommandRequirementsOptions
+    requirementsOptions: ICommandRequirementsOptions
   ) {
-    options = this.parseOptions(options)
+    const options = this.parseOptions(requirementsOptions)
 
     if (options.developersOnly) {
       const isDeveloper = this.memberHasSpecificRole(member, DEVELOPER_ROLE_ID)

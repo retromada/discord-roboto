@@ -15,7 +15,7 @@ export default abstract class Command {
   private commandOptions: IOptionHandler
   public name: string
   public category: string
-  public requirements: ICommandRequirementsOptions
+  public requirements?: ICommandRequirementsOptions
   public client: Retromada
   public logger: Logger
   public abstract execute(context: Context): void
