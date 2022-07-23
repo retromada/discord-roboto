@@ -1,3 +1,4 @@
+import { bold } from '@discordjs/builders'
 import dayjs from 'dayjs'
 import { MessageAttachment, MessageEmbed } from 'discord.js'
 
@@ -177,7 +178,7 @@ export default class Message extends Listener {
           Object.entries(embed)
             .map(
               ([key, value]) =>
-                `**${key.capitalize()}**: ${
+                `${bold(key.capitalize())}: ${
                   Array.isArray(value)
                     ? `\n${value
                         .map(({ name, value }) => `${name}: ${value}`)
