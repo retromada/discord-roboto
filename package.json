@@ -27,7 +27,6 @@
   "dependencies": {
     "@discordjs/builders": "^1.0.0",
     "@retromada/prototype": "^0.0.3",
-    "commander": "^9.3.0",
     "dayjs": "^1.11.3",
     "discord.js": "13.9.0",
     "express": "^4.18.1",
@@ -58,6 +57,7 @@
   },
   "optionalDependencies": {
     "@discordjs/rest": "^1.0.0",
+    "commander": "^9.4.0",
     "discord-api-types": "^0.36.3",
     "pino-pretty": "^8.0.0"
   }
