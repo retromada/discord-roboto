@@ -1,29 +1,39 @@
 import { REST } from '@discordjs/rest'
-import { program } from 'commander'
+import { Command } from 'commander'
 import { Routes } from 'discord-api-types/v10'
 
 import File from '@utils/File'
 
 const { DISCORD_TOKEN, CLIENT_ID, GUILD_ID } = process.env
 const rest = new REST({ version: '10' }).setToken(DISCORD_TOKEN)
+const program = new Command()
 
-program.option('-og, --only-guild')
+program
+  .option('-og, --only-guild')
+  .option('-sc, --specific-commands <commands...>')
 program.parse()
 
 const options = program.opts()
 
 const deployCommands = async (
-  onlyGuild = false,
+  {
+    onlyGuild = false,
+    specificCommands
+  }: { onlyGuild?: boolean; specificCommands?: string[] } = {},
   clientId = CLIENT_ID,
   guildId = GUILD_ID
 ) => {
-  const commands = []
+  let commands = []
 
   await File.requireDirectory(
     'src/commands',
     (Command) => commands.push(Command.data.toJSON()),
     console.error
   )
+
+  if (specificCommands?.length) {
+    commands = commands.filter(({ name }) => specificCommands.includes(name))
+  }
 
   try {
     await rest.put(
@@ -39,4 +49,4 @@ const deployCommands = async (
   }
 }
 
-deployCommands(options.onlyGuild)
+deployCommands(options)
