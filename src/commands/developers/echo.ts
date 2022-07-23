@@ -1,4 +1,4 @@
-import { Command, SlashCommandBuilder } from '@structures/command'
+import { Command, Context, SlashCommandBuilder } from '@structures/command'
 
 export default class Echo extends Command {
   constructor (client) {
@@ -22,7 +22,7 @@ export default class Echo extends Command {
         .setRequired(true)
     )
 
-  public async execute ({ interaction, channel }) {
+  public async execute ({ interaction, channel }: Context) {
     const input = interaction.options.getString('input')
 
     await interaction.deferReply()
