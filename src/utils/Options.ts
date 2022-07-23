@@ -18,6 +18,13 @@ export default class Options extends null {
           ])
         },
         {
+          channelId: NotifyChannels.BANISHMENTS,
+          actions: keyBy([
+            ChannelAction.MEMBER_BAN,
+            ChannelAction.MEMBER_UNBAN
+          ])
+        },
+        {
           channelId: NotifyChannels.MESSAGES,
           actions: keyBy([
             ChannelAction.DELETE_MESSAGES,
