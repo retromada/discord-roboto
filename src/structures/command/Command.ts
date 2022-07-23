@@ -1,6 +1,10 @@
 import type { Logger } from 'pino'
 
-import { ICommandOptions, ICommandRequirementsOptions } from '@interfaces'
+import {
+  ICommandOptions,
+  ICommandRequirementsOptions,
+  IOptionHandler
+} from '@interfaces'
 import type Retromada from '@structures/base/Retromada'
 import { optionHandler } from '@utils'
 
@@ -8,22 +12,23 @@ import type Context from './Context'
 import Requirements from './Requirements'
 
 export default abstract class Command {
-  public client: Retromada
-  public logger: Logger
+  private commandOptions: IOptionHandler
   public name: string
   public category: string
   public requirements: ICommandRequirementsOptions
+  public client: Retromada
+  public logger: Logger
   public abstract execute(context: Context): void
 
-  constructor (options: ICommandOptions | any = {}, client) {
+  constructor (options: ICommandOptions, client: Retromada) {
+    this.commandOptions = optionHandler('Command', options)
+
+    this.name = this.commandOptions.required('name')
+    this.category = this.commandOptions.default('category', 'general')
+    this.requirements = this.commandOptions.optional('requirements')
+
     this.client = client
     this.logger = client.logger
-
-    options = optionHandler('Command', options)
-
-    this.name = options.required('name')
-    this.category = options.default('category', 'general')
-    this.requirements = options.optional('requirements')
   }
 
   public async executeCommand (context: Context) {

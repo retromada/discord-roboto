@@ -1,10 +1,10 @@
-import { IListenerOptions } from '@interfaces'
+import { ICommandOptions, IListenerOptions, IOptionHandler } from '@interfaces'
 
 export const optionHandler = (
   structure: string,
-  options?: IListenerOptions
-) => ({
-  default (name: string, defaultValue: any | any[]) {
+  options: ICommandOptions | IListenerOptions
+): IOptionHandler => ({
+  default (name: string, defaultValue: any | any[]): any {
     const value = options[name]
 
     return typeof value === 'undefined'

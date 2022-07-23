@@ -5,29 +5,31 @@ import type { Logger } from 'pino'
 import {
   IDefaultOptions,
   IListenerOptions,
-  INotifyChannelsOptions
+  INotifyChannelsOptions,
+  IOptionHandler
 } from '@interfaces'
 import { optionHandler } from '@utils'
 
 import type Retromada from './base/Retromada'
 
 export default class Listener {
+  private listenerOptions: IOptionHandler
+  public unifiedEvents: boolean
+  public events: string[]
   public client: Retromada
   public logger: Logger
   public options: IDefaultOptions
-  public unifiedEvents: boolean
-  public events: string[]
   public eventsByKey: { [key: string]: string }
 
-  constructor (client: Retromada, options: IListenerOptions | any = {}) {
+  constructor (client: Retromada, options: IListenerOptions = {}) {
+    this.listenerOptions = optionHandler('Listener', options)
+
+    this.unifiedEvents = this.listenerOptions.default('unifiedEvents', false)
+    this.events = this.listenerOptions.optional('events')
+
     this.client = client
     this.logger = client.logger
     this.options = client.defaultOptions
-
-    options = optionHandler('Listener', options)
-
-    this.unifiedEvents = options.default('unifiedEvents', false)
-    this.events = options.optional('events')
 
     this.eventsByKey = keyBy(this.events)
   }
