@@ -16,6 +16,7 @@ export default class Retromada extends Client {
       intents: [
         Intents.FLAGS.GUILDS,
         Intents.FLAGS.GUILD_MEMBERS,
+        Intents.FLAGS.GUILD_BANS,
         Intents.FLAGS.GUILD_MESSAGES
       ]
     })
