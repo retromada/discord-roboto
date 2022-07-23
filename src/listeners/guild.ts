@@ -8,8 +8,67 @@ export default class Guild extends Listener {
   constructor (client) {
     super(client, {
       unifiedEvents: true,
-      events: ['guildMemberAdd', 'guildMemberRemove']
+      events: [
+        'guildBanAdd',
+        'guildBanRemove',
+        'guildMemberAdd',
+        'guildMemberRemove'
+      ]
     })
+  }
+
+  public onGuildBanAdd ({ guild, user }) {
+    this.notifyChannels(
+      {
+        event: this.eventsByKey.guildBanAdd,
+        action: ChannelAction.MEMBER_BAN,
+        guild
+      },
+      (notifyChannel) =>
+        notifyChannel
+          .send({
+            content: user.toString(),
+            embeds: [
+              new MessageEmbed()
+                .setDescription(`${bold(user.tag)} was banned. (${user.id})`)
+                .setFooter({
+                  text: 'User Banned',
+                  iconURL: user.displayAvatarURL({ size: 16 })
+                })
+                .setTimestamp()
+            ]
+          })
+          .then(() =>
+            this.logger.info({ labels: [this.eventsByKey.guildBanAdd] })
+          )
+    )
+  }
+
+  public onGuildBanRemove ({ guild, user }) {
+    this.notifyChannels(
+      {
+        event: this.eventsByKey.guildBanRemove,
+        action: ChannelAction.MEMBER_UNBAN,
+        guild
+      },
+      (notifyChannel) =>
+        notifyChannel
+          .send({
+            content: user.toString(),
+            embeds: [
+              new MessageEmbed()
+                .setDescription(`${bold(user.tag)} was unbanned. (${user.id})`)
+                .setFooter({
+                  text: 'User Unbanned',
+                  iconURL: user.displayAvatarURL({ size: 16 })
+                })
+                .setTimestamp()
+            ]
+          })
+          .then(() =>
+            this.logger.info({ labels: [this.eventsByKey.guildBanRemove] })
+          )
+    )
   }
 
   public onGuildMemberAdd ({ guild, user }) {
