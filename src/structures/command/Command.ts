@@ -4,6 +4,7 @@ import { ICommandOptions, ICommandRequirementsOptions } from '@interfaces'
 import type Retromada from '@structures/base/Retromada'
 import { optionHandler } from '@utils'
 
+import type Context from './Context'
 import Requirements from './Requirements'
 
 export default abstract class Command {
@@ -12,7 +13,7 @@ export default abstract class Command {
   public name: string
   public category: string
   public requirements: ICommandRequirementsOptions
-  public abstract execute(context): void
+  public abstract execute(context: Context): void
 
   constructor (options: ICommandOptions | any = {}, client) {
     this.client = client
@@ -25,7 +26,7 @@ export default abstract class Command {
     this.requirements = options.optional('requirements')
   }
 
-  public async executeCommand (context) {
+  public async executeCommand (context: Context) {
     try {
       await this.handleRequirements(context)
       await this.execute(context)
@@ -34,13 +35,13 @@ export default abstract class Command {
     }
   }
 
-  private handleRequirements (context) {
+  private handleRequirements (context: Context) {
     return this.requirements
       ? Requirements.handle(context, this.requirements)
       : true
   }
 
-  private async error ({ interaction }, error) {
+  private async error ({ interaction }: Context, error) {
     if (error instanceof Error) {
       await interaction.reply({ content: error.message, ephemeral: true })
     }

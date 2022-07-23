@@ -1,3 +1,5 @@
+import type { GuildMember } from 'discord.js'
+
 import { ICommandRequirementsOptions } from '@interfaces'
 
 const { DEVELOPER_ROLE_ID, MANAGER_ROLE_ID } = process.env
@@ -15,7 +17,10 @@ export default class Requirements {
     }
   }
 
-  public static async handle ({ member }, options) {
+  public static async handle (
+    { member }: { member: GuildMember },
+    options: ICommandRequirementsOptions
+  ) {
     options = this.parseOptions(options)
 
     if (options.developersOnly) {
@@ -35,7 +40,7 @@ export default class Requirements {
     }
   }
 
-  private static memberHasSpecificRole (member, role) {
+  private static memberHasSpecificRole (member: GuildMember, role: string) {
     return member.roles.cache.has(role)
   }
 }

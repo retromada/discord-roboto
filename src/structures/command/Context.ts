@@ -1,19 +1,21 @@
 import type {
+  CommandInteraction,
   Guild,
   GuildMember,
-  Interaction,
-  TextBasedChannel,
+  GuildTextBasedChannel,
   User
 } from 'discord.js'
 
+import { ICommandContextOptions } from '@interfaces'
+
 export default class Context {
-  public interaction: Interaction
+  public interaction: CommandInteraction
   public guild: Guild
-  public channel: TextBasedChannel
-  public member: GuildMember
+  public channel: GuildTextBasedChannel
+  public member: GuildMember | any
   public user: User
 
-  constructor (options) {
+  constructor (options: ICommandContextOptions) {
     this.interaction = options.interaction
     this.guild = options.interaction.guild
     this.channel = options.interaction.channel
