@@ -27,6 +27,7 @@
   "dependencies": {
     "@discordjs/builders": "^1.0.0",
     "@retromada/prototype": "^0.0.3",
+    "cross-fetch": "^3.1.5",
     "dayjs": "^1.11.3",
     "discord.js": "13.9.0",
     "express": "^4.18.1",
