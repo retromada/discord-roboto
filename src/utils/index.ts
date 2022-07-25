@@ -1,8 +1,13 @@
-import { ICommandOptions, IListenerOptions, IOptionHandler } from '@interfaces'
+import {
+  IAPIWrapperOptions,
+  ICommandOptions,
+  IListenerOptions,
+  IOptionHandler
+} from '@interfaces'
 
 export const optionHandler = (
   structure: string,
-  options: ICommandOptions | IListenerOptions
+  options: IAPIWrapperOptions | ICommandOptions | IListenerOptions
 ): IOptionHandler => ({
   default (name: string, defaultValue: any | any[]): any {
     const value = options[name]
