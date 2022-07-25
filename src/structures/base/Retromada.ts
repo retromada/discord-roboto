@@ -8,8 +8,9 @@ import Logger from './Logger'
 
 export default class Retromada extends Client {
   public logger
-  public commands: Map<string, any>
   public defaultOptions: IDefaultOptions
+  public commands: Map<string, any>
+  public apis: { [key: string]: any }
 
   constructor () {
     super({
@@ -22,8 +23,8 @@ export default class Retromada extends Client {
     })
 
     this.logger = new Logger({ prettyPrint: true })
-    this.commands = new Map()
     this.defaultOptions = Options.defaultOptions()
+    this.commands = new Map()
 
     this.initializeLoaders()
   }
