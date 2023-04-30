@@ -41,7 +41,7 @@ export default class UID extends Command {
       throw new Error(data?.text?.capitalize())
     }
 
-    const inviter = data?.inviter.toString()
+    const inviter = data?.inviter
 
     return await interaction.reply({
       embeds: [
@@ -52,7 +52,7 @@ export default class UID extends Command {
             { name: 'UID', value: data?.uid.toString(), inline: true },
             {
               name: 'Inviter',
-              value: inviter.startsWith('no') ? inviter.capitalize() : inviter,
+              value: /no inviter/.test(inviter) ? inviter.capitalize() : inviter,
               inline: true
             },
             {
