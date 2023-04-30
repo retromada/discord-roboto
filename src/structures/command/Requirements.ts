@@ -6,7 +6,7 @@ import {
 } from '@interfaces'
 import { Errors } from '@utils/Constants'
 
-const { DEVELOPER_ROLE_ID, MANAGER_ROLE_ID } = process.env
+const { DEVELOPER_MASTER_ID, DEVELOPER_ROLE_ID, MANAGER_ROLE_ID } = process.env
 
 export default class Requirements {
   public static parseOptions (
@@ -28,11 +28,12 @@ export default class Requirements {
     requirementsOptions: ICommandRequirementsOptions
   ) {
     const options = this.parseOptions(requirementsOptions)
+    const isDeveloperMaster = member.id === DEVELOPER_MASTER_ID
 
     if (options.developersOnly) {
       const isDeveloper = this.memberHasSpecificRole(member, DEVELOPER_ROLE_ID)
 
-      if (!isDeveloper) {
+      if (!isDeveloper && !isDeveloperMaster) {
         throw new Error(options.errors.developersOnly)
       }
     }
@@ -40,7 +41,7 @@ export default class Requirements {
     if (options.managersOnly) {
       const isManager = this.memberHasSpecificRole(member, MANAGER_ROLE_ID)
 
-      if (!isManager) {
+      if (!isManager && !isDeveloperMaster) {
         throw new Error(options.errors.managersOnly)
       }
     }
