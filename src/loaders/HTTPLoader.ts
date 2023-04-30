@@ -27,6 +27,7 @@ export default abstract class HTTPLoader extends Loader {
 
     this.http.use(express.json())
     this.http.use(PinoHTTPLogger({ logger: this.logger }))
+    this.http.use(express.static('public'))
 
     this.http.listen(port, () =>
       this.logger.info({ labels: ['HTTPLoader'] }, `Listening on port ${port}`)

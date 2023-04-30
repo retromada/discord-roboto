@@ -2,6 +2,7 @@ import { Cheats } from 'apis/UIDPolice'
 import { MessageEmbed } from 'discord.js'
 
 import { Command, Context, SlashCommandBuilder } from '@structures/command'
+import { Endpoints } from '@utils/Constants'
 
 export default class UID extends Command {
   constructor (client) {
@@ -52,7 +53,9 @@ export default class UID extends Command {
             { name: 'UID', value: data?.uid.toString(), inline: true },
             {
               name: 'Inviter',
-              value: /no inviter/.test(inviter) ? inviter.capitalize() : inviter,
+              value: /no inviter/.test(inviter)
+                ? inviter.capitalize()
+                : inviter,
               inline: true
             },
             {
@@ -61,7 +64,12 @@ export default class UID extends Command {
               inline: true
             }
           )
-          .setFooter({ text: 'Member since ' + data?.joined })
+          .setFooter({
+            text: `${cheat.capitalize()}${
+              data?.joined.length ? ` · Member since ${data?.joined}` : ''
+            }`,
+            iconURL: Endpoints.Images('logotypes/cheats').File(cheat, 'jpg')
+          })
       ]
     })
   }
