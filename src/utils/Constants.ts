@@ -14,3 +14,12 @@ export const Endpoints = {
     }
   }
 }
+
+export const Errors = {
+  Command: {
+    Requirements: {
+      DEVELOPERS_ONLY: 'Only the bot developers can do that.',
+      MANAGERS_ONLY: 'Only the bot managers can do that.'
+    }
+  }
+}

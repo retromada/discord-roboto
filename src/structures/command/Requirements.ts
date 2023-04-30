@@ -4,6 +4,7 @@ import {
   ICommandRequirementsOptions,
   ICommandRequirementsParsedOptions
 } from '@interfaces'
+import { Errors } from '@utils/Constants'
 
 const { DEVELOPER_ROLE_ID, MANAGER_ROLE_ID } = process.env
 
@@ -16,8 +17,8 @@ export default class Requirements {
       managersOnly: !!options.managersOnly,
 
       errors: {
-        developersOnly: 'Only the bot developers can do that.',
-        managersOnly: 'Only the bot managers can do that.'
+        developersOnly: Errors.Command.Requirements.DEVELOPERS_ONLY,
+        managersOnly: Errors.Command.Requirements.MANAGERS_ONLY
       }
     }
   }
