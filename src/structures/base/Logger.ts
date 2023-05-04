@@ -1,7 +1,7 @@
 import pino, { LoggerOptions } from 'pino'
 
 export default class Logger {
-  constructor (options?: LoggerOptions) {
+  constructor (options?: LoggerOptions & { prettyPrint: boolean }) {
     try {
       require.resolve('pino-pretty')
     } catch (error) {
