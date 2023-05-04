@@ -5,6 +5,9 @@ import {
   IOptionHandler
 } from '@interfaces'
 
+export const delay = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms))
+
 export const optionHandler = (
   structure: string,
   options: IAPIWrapperOptions | ICommandOptions | IListenerOptions
